@@ -1,6 +1,7 @@
 includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
 
 parameters:
     level: 9
@@ -16,4 +17,13 @@ parameters:
     reportUnmatchedIgnoredErrors: true
 
     ignoreErrors:
-        # Add specific ignoreErrors here if needed
+        # WebTestCase and KernelTestCase methods are dynamically inherited
+        -
+            message: '#Call to an undefined static method (App\\Tests\\.*)?::assert.*#'
+            path: tests/**
+        -
+            message: '#Call to an undefined method Symfony\\Bundle\\FrameworkBundle\\KernelBrowser::(request|getResponse)#'
+            path: tests/Controller/**
+        -
+            message: '#Cannot access offset .* on mixed#'
+            path: tests/Controller/**
