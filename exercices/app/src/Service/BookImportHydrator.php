@@ -9,8 +9,11 @@ use App\DTO\BookImportData;
 final class BookImportHydrator
 {
     private const COLUMN_TITLE = 0;
+
     private const COLUMN_AUTHOR = 1;
+
     private const COLUMN_YEAR = 2;
+
     private const COLUMN_ISBN = 3;
 
     /**

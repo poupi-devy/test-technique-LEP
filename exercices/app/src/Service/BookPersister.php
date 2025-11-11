@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\DTO\BookImportData;
-use App\Entity\Book;
+use App\Entity\Book as BookEntity;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class BookPersister
+final readonly class BookPersister
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function persist(BookImportData $bookData): Book
+    public function persist(BookImportData $bookData): void
     {
-        $book = new Book();
+        $book = new BookEntity();
         $book->setTitle($bookData->title);
         $book->setAuthor($bookData->author);
         $book->setYear($bookData->year);
@@ -25,7 +25,5 @@ final class BookPersister
 
         $this->entityManager->persist($book);
         $this->entityManager->flush();
-
-        return $book;
     }
 }

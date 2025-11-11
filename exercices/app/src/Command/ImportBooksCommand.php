@@ -40,8 +40,8 @@ final readonly class ImportBooksCommand
             ));
 
             return Command::SUCCESS;
-        } catch (\Exception $e) {
-            $io->error(sprintf('Import failed: %s', $e->getMessage()));
+        } catch (\Exception $exception) {
+            $io->error(sprintf('Import failed: %s', $exception->getMessage()));
             return Command::FAILURE;
         }
     }

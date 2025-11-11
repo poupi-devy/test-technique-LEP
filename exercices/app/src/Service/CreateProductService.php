@@ -11,13 +11,13 @@ use DateTimeInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class CreateProductService
+final readonly class CreateProductService
 {
     public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ValidationErrorFormatter $errorFormatter,
-        private readonly ProductHydrator $hydrator,
+        private ValidatorInterface $validator,
+        private EventDispatcherInterface $eventDispatcher,
+        private ValidationErrorFormatter $errorFormatter,
+        private ProductHydrator $hydrator,
     ) {
     }
 

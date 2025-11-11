@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Parser\FileParserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class ImportBooksService
+final readonly class ImportBooksService
 {
     public function __construct(
-        private readonly FileParserInterface $fileParser,
-        private readonly BookImportHydrator $hydrator,
-        private readonly BookValidator $validator,
-        private readonly BookPersister $persister,
-        private readonly EventDispatcherInterface $eventDispatcher,
+        private FileParserInterface $fileParser,
+        private BookImportHydrator $hydrator,
+        private BookValidator $validator,
+        private BookPersister $persister,
     ) {
     }
 

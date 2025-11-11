@@ -25,6 +25,7 @@
             <errorLevel type="info" path="src/Repository"/>
         </UnusedParam>
         <MissingDependency errorLevel="suppress"/>
+        <MissingOverrideAttribute errorLevel="suppress"/>
     </issueHandlers>
 
     <forbiddenFunctions>

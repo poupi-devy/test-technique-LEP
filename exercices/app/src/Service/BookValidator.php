@@ -8,10 +8,10 @@ use App\DTO\BookImportData;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class BookValidator
+final readonly class BookValidator
 {
     public function __construct(
-        private readonly ValidatorInterface $validator,
+        private ValidatorInterface $validator,
     ) {
     }
 

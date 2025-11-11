@@ -6,8 +6,6 @@ namespace App\Parser;
 
 final class CsvFileParser implements FileParserInterface
 {
-    private const SKIP_HEADER = true;
-
     /**
      * Parse a CSV file and yield each row
      *
@@ -22,9 +20,8 @@ final class CsvFileParser implements FileParserInterface
         }
 
         try {
-            if (self::SKIP_HEADER) {
-                fgetcsv($file);
-            }
+            // Skip header line
+            fgetcsv($file);
 
             while (($row = fgetcsv($file)) !== false) {
                 /** @var list<string|null> $row */

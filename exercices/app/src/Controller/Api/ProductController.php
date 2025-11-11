@@ -54,14 +54,22 @@ final class ProductController extends AbstractController
 
         $result = $this->createProductService->handle($request);
 
-        if (!$result['success']) {
+        if (!($result['success'] ?? false)) {
             return $this->json([
-                'error' => $result['error'],
-                'violations' => $result['violations'],
+                'error' => $result['error'] ?? 'unknown_error',
+                'violations' => $result['violations'] ?? [],
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $product = $result['product'];
+        $product = $result['product'] ?? [];
+
+        if (!is_array($product)) {
+            return $this->json([
+                'error' => 'internal_error',
+                'message' => 'Invalid product response',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $productId = is_int($product['id'] ?? null) ? $product['id'] : 0;
 
         return $this->json($product, Response::HTTP_CREATED, [
