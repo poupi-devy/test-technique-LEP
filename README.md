@@ -102,19 +102,17 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 
 | # | Question | Lien |
 |---|----------|------|
-| 1 | Relationnelles vs Non-relationnelles | [docs/II-bases-donnees/questions-conceptuelles.md#q1](./docs/II-bases-donnees/questions-conceptuelles.md#q1) |
-| 2 | Formes de normalisation (1NF, 2NF, 3NF) | [docs/IQ4. Injection de Dépendances (DI)I-bases-donnees/questions-conceptuelles.md#q2](./docs/II-bases-donnees/questions-conceptuelles.md#q2) |
-| 3 | Index et optimisation | [docs/II-bases-donnees/questions-conceptuelles.md#q3](./docs/II-bases-donnees/questions-conceptuelles.md#q3) |
-| 4 | Transactions et cohérence | [docs/II-bases-donnees/questions-conceptuelles.md#q4](./docs/II-bases-donnees/questions-conceptuelles.md#q4) |
-| 5 | Techniques d'optimisation | [docs/II-bases-donnees/questions-conceptuelles.md#q5](./docs/II-bases-donnees/questions-conceptuelles.md#q5) |
+| 1 | Relationnelles vs Non-relationnelles | [docs/II-bases-donnees/questions-conceptuelles.md#q1](./docs/II-bases-donnees/questions-conceptuelles.md#q1-bases-de-donnees-relationnelles-vs-non-relationnelles) |
+| 2 | Formes de normalisation (1NF, 2NF, 3NF) | [docs/II-bases-donnees/questions-conceptuelles.md#q2](./docs/II-bases-donnees/questions-conceptuelles.md#q2-formes-de-normalisation-1nf-2nf-3nf) |
+| 3 | Index et optimisation | [docs/II-bases-donnees/questions-conceptuelles.md#q3](./docs/II-bases-donnees/questions-conceptuelles.md#q3-index-dans-une-base-de-donnees) |
+| 4 | Transactions et cohérence | [docs/II-bases-donnees/questions-conceptuelles.md#q4](./docs/II-bases-donnees/questions-conceptuelles.md#q4-transactions-de-base-de-donnees) |
+| 5 | Techniques d'optimisation | [docs/II-bases-donnees/questions-conceptuelles.md#q5](./docs/II-bases-donnees/questions-conceptuelles.md#q5-techniques-courantes-doptimisation) |
 
 ### Exercice pratique : Requête SQL
 
 **Scénario**: Tables `users` et `orders` – récupérer les utilisateurs avec commandes > 100€
 
-**Réponse**: [docs/II-bases-donnees/exercice-requete-sql.md](./docs/II-bases-donnees/exercice-requete-sql.md)
-
-**Code source**: [exercises/02-requete-sql/](./exercises/02-requete-sql/)
+**Réponse**: [exercices/02-requete-sql/README.md](./exercices/02-requete-sql/README.md)
 
 ---
 
@@ -124,19 +122,17 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 
 | # | Question | Lien |
 |---|----------|------|
-| 1 | Principes RESTful | [docs/III-conception-api/questions-conceptuelles.md#q1](./docs/III-conception-api/questions-conceptuelles.md#q1) |
-| 2 | Méthodes HTTP (GET, POST, PUT, DELETE) | [docs/III-conception-api/questions-conceptuelles.md#q2](./docs/III-conception-api/questions-conceptuelles.md#q2) |
-| 3 | Versionnage d'API | [docs/III-conception-api/questions-conceptuelles.md#q3](./docs/III-conception-api/questions-conceptuelles.md#q3) |
-| 4 | Authentification (API Key, OAuth, JWT) | [docs/III-conception-api/questions-conceptuelles.md#q4](./docs/III-conception-api/questions-conceptuelles.md#q4) |
-| 5 | Rate limiting | [docs/III-conception-api/questions-conceptuelles.md#q5](./docs/III-conception-api/questions-conceptuelles.md#q5) |
+| 1 | Principes RESTful | [docs/III-conception-api/questions-conceptuelles.md#q1](./docs/III-conception-api/questions-conceptuelles.md#q1-principes-clés-de-la-conception-restful) |
+| 2 | Méthodes HTTP (GET, POST, PUT, DELETE) | [docs/III-conception-api/questions-conceptuelles.md#q2](./docs/III-conception-api/questions-conceptuelles.md#q2-méthodes-http-get-post-put-delete) |
+| 3 | Versionnage d'API | [docs/III-conception-api/questions-conceptuelles.md#q3](./docs/III-conception-api/questions-conceptuelles.md#q3-versionnage-dapi) |
+| 4 | Authentification (API Key, OAuth, JWT) | [docs/III-conception-api/questions-conceptuelles.md#q4](./docs/III-conception-api/questions-conceptuelles.md#q4-authentification-et-sécurisation) |
+| 5 | Rate limiting | [docs/III-conception-api/questions-conceptuelles.md#q5](./docs/III-conception-api/questions-conceptuelles.md#q5-rate-limiting-limitation-du-débit) |
 
 ### Exercice pratique : Endpoint API
 
 **Scénario**: Endpoint pour créer un produit (nom, description, prix, catégorie)
 
-**Réponse**: [docs/III-conception-api/exercice-endpoint-api.md](./docs/III-conception-api/exercice-endpoint-api.md)
-
-**Code source**: [exercises/03-endpoint-api/](./exercises/03-endpoint-api/)
+**Réponse**: [exercices/03-endpoint-api/README.md](./exercices/03-endpoint-api/README.md)
 
 ---
 
@@ -150,12 +146,12 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 | 2 | Types de tests (unitaire, intégration, fonctionnel) | [docs/IV-qualite-code/questions-conceptuelles.md#q2](./docs/IV-qualite-code/questions-conceptuelles.md#q2) |
 | 3 | Revue de code | [docs/IV-qualite-code/questions-conceptuelles.md#q3](./docs/IV-qualite-code/questions-conceptuelles.md#q3) |
 
-### Scénarios
+### Questions basées sur des scénarios
 
 | # | Scénario | Lien |
 |---|----------|------|
-| 1 | Déboguer une application Symfony lente | [docs/IV-qualite-code/questions-conceptuelles.md#s1](./docs/IV-qualite-code/questions-conceptuelles.md#s1) |
-| 2 | Corriger et déployer un bug en production | [docs/IV-qualite-code/questions-conceptuelles.md#s2](./docs/IV-qualite-code/questions-conceptuelles.md#s2) |
+| 4 | Déboguer une application Symfony lente | [docs/IV-qualite-code/questions-conceptuelles.md#q4](./docs/IV-qualite-code/questions-conceptuelles.md#q4-débogage-dune-application-symfony-lente) |
+| 5 | Corriger et déployer un bug en production | [docs/IV-qualite-code/questions-conceptuelles.md#q5](./docs/IV-qualite-code/questions-conceptuelles.md#q5-correction-dun-bug-en-production) |
 
 ---
 
@@ -173,7 +169,7 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 
 **Objectif**: Déploiement d'une application Symfony sur Google Cloud Platform (GCP)
 
-**Réponse**: [docs/V-devops-infrastructure/deploiement-gcp.md](./docs/V-devops-infrastructure/deploiement-gcp.md)
+**Réponse**: [docs/V-devops-infrastructure/questions-conceptuelles.md#tâche-déployer-symfony-sur-gcp](./docs/V-devops-infrastructure/questions-conceptuelles.md#tâche-déployer-symfony-sur-gcp)
 
 ---
 
