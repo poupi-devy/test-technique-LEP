@@ -6,6 +6,8 @@ namespace App\Controller\Api;
 
 use App\Entity\Product;
 use App\Event\ProductCreatedEvent;
+use DateTimeInterface;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +29,7 @@ final class ProductController extends AbstractController
     {
         try {
             $data = json_decode($request->getContent(), true);
-        } catch (\JsonException) {
+        } catch (JsonException) {
             return $this->json([
                 'error' => 'invalid_request',
                 'message' => 'Invalid JSON payload',
@@ -55,7 +57,7 @@ final class ProductController extends AbstractController
         }
 
         if (isset($data['price']) && is_numeric($data['price'])) {
-            $product->setPrice((float) $data['price']);
+            $product->setPrice((string) $data['price']);
         }
 
         if (isset($data['categoryId']) && is_int($data['categoryId'])) {
@@ -95,7 +97,7 @@ final class ProductController extends AbstractController
             'description' => $product->getDescription(),
             'price' => $product->getPrice(),
             'categoryId' => $product->getCategoryId(),
-            'createdAt' => $product->getCreatedAt()->format(\DateTimeInterface::ATOM),
+            'createdAt' => $product->getCreatedAt()->format(DateTimeInterface::ATOM),
         ], 201, [
             'Location' => sprintf('/api/v1/products/%d', $productId),
         ]);

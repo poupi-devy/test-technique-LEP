@@ -29,7 +29,6 @@ final class Book
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\GreaterThan(1000)]
-    #[Assert\LessThanOrEqual(2025)]
     private int $year;
 
     #[ORM\Column(length: 20, unique: true)]

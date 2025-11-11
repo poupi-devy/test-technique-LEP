@@ -4,26 +4,18 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use App\DTO\BookImportData;
 use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @param array<string, mixed> $data
- */
 final class BookImportedEvent extends Event
 {
-    /**
-     * @param array<string, mixed> $data
-     */
     public function __construct(
-        private readonly array $data,
+        private readonly BookImportData $bookData,
     ) {
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function getData(): array
+    public function getBookData(): BookImportData
     {
-        return $this->data;
+        return $this->bookData;
     }
 }

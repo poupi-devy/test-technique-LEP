@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\DTO\BookImportData;
 use App\Event\BookImportedEvent;
+use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,12 +22,18 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 )]
 final readonly class ImportBooksCommand
 {
+    private const EXPECTED_COLUMNS = 4;
+    private const COLUMN_TITLE = 0;
+    private const COLUMN_AUTHOR = 1;
+    private const COLUMN_YEAR = 2;
+    private const COLUMN_ISBN = 3;
+
     public function __construct(private EventDispatcherInterface $eventDispatcher)
     {
     }
 
-    public function __invoke(#[\Symfony\Component\Console\Attribute\Argument(name: 'file', description: 'Path to the CSV file containing book data')]
-        string $file, \Symfony\Component\Console\Style\SymfonyStyle $io): int
+    public function __invoke(#[Argument(description: 'Path to the CSV file containing book data', name: 'file')]
+        string $file, SymfonyStyle $io): int
     {
         $filePath = $file;
 
@@ -50,26 +59,26 @@ final readonly class ImportBooksCommand
 
             while (($row = fgetcsv($file)) !== false) {
                 /** @var list<string|null> $row */
-                if (count($row) < 4) {
+                if (count($row) < self::EXPECTED_COLUMNS) {
                     $errorCount++;
-                    $io->warning(sprintf('Invalid row (expecting 4 columns): %s', implode(',', $row)));
+                    $io->warning(sprintf('Invalid row (expecting %d columns): %s', self::EXPECTED_COLUMNS, implode(',', $row)));
                     continue;
                 }
 
                 try {
-                    $data = [
-                        'title' => $row[0] ?? '',
-                        'author' => $row[1] ?? '',
-                        'year' => (int) ($row[2] ?? 0),
-                        'isbn' => $row[3] ?? '',
-                    ];
+                    $bookData = new BookImportData(
+                        title: $row[self::COLUMN_TITLE] ?? '',
+                        author: $row[self::COLUMN_AUTHOR] ?? '',
+                        year: (int) ($row[self::COLUMN_YEAR] ?? 0),
+                        isbn: $row[self::COLUMN_ISBN] ?? '',
+                    );
 
-                    $event = new BookImportedEvent($data);
+                    $event = new BookImportedEvent($bookData);
                     $this->eventDispatcher->dispatch($event);
                     $importedCount++;
 
-                    $io->writeln(sprintf('✓ Imported: %s', $data['title']));
-                } catch (\Exception $e) {
+                    $io->writeln(sprintf('✓ Imported: %s', $bookData->title));
+                } catch (Exception $e) {
                     $errorCount++;
                     $io->warning(sprintf('Error importing row: %s', $e->getMessage()));
                 }

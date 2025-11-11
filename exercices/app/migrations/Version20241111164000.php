@@ -27,7 +27,7 @@ final class Version20241111164000 extends AbstractMigration
             id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             author VARCHAR(255) NOT NULL,
-            year INTEGER NOT NULL CHECK (year >= 1000 AND year <= 2025),
+            year INTEGER NOT NULL CHECK (year >= 1000),
             isbn VARCHAR(20) NOT NULL UNIQUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )');
