@@ -21,6 +21,10 @@
     <issueHandlers>
         <PossiblyUnusedMethod errorLevel="suppress"/>
         <UnusedClass errorLevel="suppress"/>
+        <UnusedParam errorLevel="suppress">
+            <errorLevel type="info" path="src/Repository"/>
+        </UnusedParam>
+        <MissingDependency errorLevel="suppress"/>
     </issueHandlers>
 
     <forbiddenFunctions>

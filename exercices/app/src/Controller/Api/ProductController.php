@@ -81,15 +81,23 @@ final class ProductController extends AbstractController
         $event = new ProductCreatedEvent($product);
         $this->eventDispatcher->dispatch($event);
 
+        $productId = $product->getId();
+        if ($productId === null) {
+            return $this->json([
+                'error' => 'internal_error',
+                'message' => 'Product was not persisted with an ID',
+            ], 500);
+        }
+
         return $this->json([
-            'id' => $product->getId(),
+            'id' => $productId,
             'name' => $product->getName(),
             'description' => $product->getDescription(),
             'price' => $product->getPrice(),
             'categoryId' => $product->getCategoryId(),
             'createdAt' => $product->getCreatedAt()->format(\DateTimeInterface::ATOM),
         ], 201, [
-            'Location' => sprintf('/api/v1/products/%d', $product->getId()),
+            'Location' => sprintf('/api/v1/products/%d', $productId),
         ]);
     }
 }

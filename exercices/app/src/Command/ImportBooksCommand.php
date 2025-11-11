@@ -49,6 +49,7 @@ final readonly class ImportBooksCommand
             fgetcsv($file);
 
             while (($row = fgetcsv($file)) !== false) {
+                /** @var list<string|null> $row */
                 if (count($row) < 4) {
                     $errorCount++;
                     $io->warning(sprintf('Invalid row (expecting 4 columns): %s', implode(',', $row)));
@@ -57,10 +58,10 @@ final readonly class ImportBooksCommand
 
                 try {
                     $data = [
-                        'title' => $row[0],
-                        'author' => $row[1],
-                        'year' => (int) $row[2],
-                        'isbn' => $row[3],
+                        'title' => $row[0] ?? '',
+                        'author' => $row[1] ?? '',
+                        'year' => (int) ($row[2] ?? 0),
+                        'isbn' => $row[3] ?? '',
                     ];
 
                     $event = new BookImportedEvent($data);
