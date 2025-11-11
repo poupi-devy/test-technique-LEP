@@ -27,7 +27,7 @@ final class ProductController extends AbstractController
     {
         try {
             $data = json_decode($request->getContent(), true);
-        } catch (\JsonException $e) {
+        } catch (\JsonException) {
             return $this->json([
                 'error' => 'invalid_request',
                 'message' => 'Invalid JSON payload',
@@ -42,16 +42,19 @@ final class ProductController extends AbstractController
         }
 
         $product = new Product();
-        if (isset($data['name'])) {
+        if (isset($data['name']) && is_string($data['name'])) {
             $product->setName($data['name']);
         }
-        if (isset($data['description'])) {
+
+        if (isset($data['description']) && (is_string($data['description']) || $data['description'] === null)) {
             $product->setDescription($data['description']);
         }
-        if (isset($data['price'])) {
-            $product->setPrice($data['price']);
+
+        if (isset($data['price']) && is_numeric($data['price'])) {
+            $product->setPrice((float) $data['price']);
         }
-        if (isset($data['categoryId'])) {
+
+        if (isset($data['categoryId']) && is_int($data['categoryId'])) {
             $product->setCategoryId($data['categoryId']);
         }
 

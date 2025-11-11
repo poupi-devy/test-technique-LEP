@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ProductControllerTest extends WebTestCase
 {
     public function testCreateProductWithValidData(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
 
         $client->request(
             'POST',
@@ -33,7 +34,7 @@ final class ProductControllerTest extends WebTestCase
 
     public function testCreateProductWithInvalidJson(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
 
         $client->request(
             'POST',
@@ -53,7 +54,7 @@ final class ProductControllerTest extends WebTestCase
 
     public function testCreateProductWithValidationError(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
 
         $client->request(
             'POST',
@@ -69,8 +70,9 @@ final class ProductControllerTest extends WebTestCase
         );
 
         $this->assertResponseStatusCodeSame(422);
-        $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertSame('validation_failed', $response['error']);
-        $this->assertNotEmpty($response['violations']);
+        $response = json_decode((string) $client->getResponse()->getContent(), true);
+        $this->assertIsArray($response);
+        $this->assertSame('validation_failed', $response['error'] ?? null);
+        $this->assertNotEmpty($response['violations'] ?? null);
     }
 }

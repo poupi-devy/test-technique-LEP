@@ -18,19 +18,27 @@ final class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    /**
+     * @return array<int, Product>
+     */
     public function findByCategory(int $categoryId): array
     {
         return $this->findBy(['categoryId' => $categoryId]);
     }
 
+    /**
+     * @return array<int, Product>
+     */
     public function findByPriceRange(float $minPrice, float $maxPrice): array
     {
-        return $this->createQueryBuilder('p')
+        $result = $this->createQueryBuilder('p')
             ->andWhere('p.price >= :minPrice')
             ->andWhere('p.price <= :maxPrice')
             ->setParameter('minPrice', $minPrice)
             ->setParameter('maxPrice', $maxPrice)
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 }

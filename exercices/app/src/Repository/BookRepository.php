@@ -23,6 +23,9 @@ final class BookRepository extends ServiceEntityRepository
         return $this->findOneBy(['isbn' => $isbn]);
     }
 
+    /**
+     * @return array<int, Book>
+     */
     public function findByAuthor(string $author): array
     {
         return $this->findBy(['author' => $author]);

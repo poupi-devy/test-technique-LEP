@@ -17,27 +17,16 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
     name: 'app:import:books',
     description: 'Import books from a CSV file into the database',
 )]
-final class ImportBooksCommand extends Command
+final readonly class ImportBooksCommand
 {
-    public function __construct(
-        private readonly EventDispatcherInterface $eventDispatcher,
-    ) {
-        parent::__construct();
+    public function __construct(private EventDispatcherInterface $eventDispatcher)
+    {
     }
 
-    protected function configure(): void
+    public function __invoke(#[\Symfony\Component\Console\Attribute\Argument(name: 'file', description: 'Path to the CSV file containing book data')]
+        string $file, \Symfony\Component\Console\Style\SymfonyStyle $io): int
     {
-        $this->addArgument(
-            'file',
-            InputArgument::REQUIRED,
-            'Path to the CSV file containing book data'
-        );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
-        $filePath = $input->getArgument('file');
+        $filePath = $file;
 
         if (!file_exists($filePath)) {
             $io->error(sprintf('File not found: %s', $filePath));
