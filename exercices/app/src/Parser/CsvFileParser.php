@@ -21,11 +21,19 @@ final class CsvFileParser implements FileParserInterface
 
         try {
             // Skip header line
-            fgetcsv($file);
+            $headerLine = fgetcsv($file);
+
+            if ($headerLine === false) {
+                throw new \RuntimeException('CSV file is empty or cannot be read');
+            }
 
             while (($row = fgetcsv($file)) !== false) {
                 /** @var list<string|null> $row */
-                yield $row;
+                // Normalize array to ensure all values are string|null
+                yield array_map(
+                    static fn ($value): ?string => $value === '' ? null : (string) $value,
+                    $row
+                );
             }
         } finally {
             fclose($file);
