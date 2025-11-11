@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -24,36 +25,72 @@ final class ProductController extends AbstractController
     ) {
     }
 
-    #[Route('/products', methods: ['POST'])]
-    public function create(Request $request): JsonResponse
+    #[Route('/products', methods: [Request::METHOD_POST])]
+    public function __invoke(Request $request): JsonResponse
     {
-        try {
-            $data = json_decode($request->getContent(), true);
-        } catch (JsonException) {
+        $data = $this->decodeJsonPayload($request);
+
+        if ($data === null) {
             return $this->json([
                 'error' => 'invalid_request',
                 'message' => 'Invalid JSON payload',
-            ], 400);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         if (!is_array($data)) {
             return $this->json([
                 'error' => 'invalid_request',
                 'message' => 'Request body must be a JSON object',
-            ], 400);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
+        $product = $this->hydrateProduct($data);
+
+        $errors = $this->validator->validate($product);
+        if (count($errors) > 0) {
+            return $this->json([
+                'error' => 'validation_failed',
+                'violations' => $this->mapValidationErrors($errors),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $this->eventDispatcher->dispatch(new ProductCreatedEvent($product));
+
+        $productId = $product->getId();
+        if ($productId === null) {
+            return $this->json([
+                'error' => 'internal_error',
+                'message' => 'Product was not persisted with an ID',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->json($this->formatProductResponse($product), Response::HTTP_CREATED, [
+            'Location' => sprintf('/api/v1/products/%d', $productId),
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function decodeJsonPayload(Request $request): mixed
+    {
+        try {
+            return json_decode($request->getContent(), true);
+        } catch (JsonException) {
+            return null;
+        }
+    }
+
+    private function hydrateProduct(array $data): Product
+    {
         $product = new Product();
+
         if (isset($data['name']) && is_string($data['name'])) {
             $product->setName($data['name']);
         }
 
-        if (array_key_exists('description', $data)) {
-            if (is_string($data['description'])) {
-                $product->setDescription($data['description']);
-            } elseif ($data['description'] === null) {
-                $product->setDescription(null);
-            }
+        if (array_key_exists('description', $data) && (is_string($data['description']) || $data['description'] === null)) {
+            $product->setDescription($data['description']);
         }
 
         if (isset($data['price']) && is_numeric($data['price'])) {
@@ -64,42 +101,37 @@ final class ProductController extends AbstractController
             $product->setCategoryId($data['categoryId']);
         }
 
-        $errors = $this->validator->validate($product);
-        if (count($errors) > 0) {
-            $violations = [];
-            foreach ($errors as $error) {
-                $violations[] = [
-                    'field' => $error->getPropertyPath(),
-                    'message' => $error->getMessage(),
-                ];
-            }
+        return $product;
+    }
 
-            return $this->json([
-                'error' => 'validation_failed',
-                'violations' => $violations,
-            ], 422);
+    /**
+     * @return list<array<string, string>>
+     */
+    private function mapValidationErrors($errors): array
+    {
+        $violations = [];
+        foreach ($errors as $error) {
+            $violations[] = [
+                'field' => (string) $error->getPropertyPath(),
+                'message' => $error->getMessage(),
+            ];
         }
 
-        $event = new ProductCreatedEvent($product);
-        $this->eventDispatcher->dispatch($event);
+        return $violations;
+    }
 
-        $productId = $product->getId();
-        if ($productId === null) {
-            return $this->json([
-                'error' => 'internal_error',
-                'message' => 'Product was not persisted with an ID',
-            ], 500);
-        }
-
-        return $this->json([
-            'id' => $productId,
+    /**
+     * @return array<string, mixed>
+     */
+    private function formatProductResponse(Product $product): array
+    {
+        return [
+            'id' => $product->getId(),
             'name' => $product->getName(),
             'description' => $product->getDescription(),
             'price' => $product->getPrice(),
             'categoryId' => $product->getCategoryId(),
             'createdAt' => $product->getCreatedAt()->format(DateTimeInterface::ATOM),
-        ], 201, [
-            'Location' => sprintf('/api/v1/products/%d', $productId),
-        ]);
+        ];
     }
 }
