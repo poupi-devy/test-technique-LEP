@@ -1,0 +1,67 @@
+name: QA & Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  qa-and-tests:
+    name: QA Suite & Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [ '8.4' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: pdo_sqlite, dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_pgsql, pgsql, iconv, intl, gd, exif, fileinfo
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run QA Suite (ECS, Rector, PHPStan, Psalm)
+        run: make qa
+
+      - name: Create test database
+        run: php bin/console doctrine:database:create --if-not-exists --env=test
+        env:
+          DATABASE_URL: sqlite:///:memory:
+
+      - name: Run migrations
+        run: php bin/console doctrine:migrations:migrate -n --env=test
+        env:
+          DATABASE_URL: sqlite:///:memory:
+
+      - name: Run tests
+        run: make test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./var/coverage/coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+        if: always()
