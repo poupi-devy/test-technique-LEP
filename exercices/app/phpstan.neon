@@ -1,24 +1,19 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
 parameters:
     level: 9
     paths:
         - src
         - tests
-
-    scanFiles:
         - bin/console
 
     excludePaths:
-        - */Tests
-        - */test
         - */migrations
-
-    treatPhpDocTypesAsCertain: true
+        - */vendor
 
     reportUnmatchedIgnoredErrors: true
 
-    checkGenericClassInNonGenericObjectType: true
-
-    strictRules:
-        disallowedLooseComparison: true
-        missingTypehint: true
-        nullsafeOperatorNullsafe: true
+    ignoreErrors:
+        # Add specific ignoreErrors here if needed
