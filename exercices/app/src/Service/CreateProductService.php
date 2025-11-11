@@ -6,19 +6,13 @@ namespace App\Service;
 
 use App\DTO\ProductCreateRequest;
 use App\Entity\Product;
-use App\Event\ProductCreatedEvent;
 use DateTimeInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final readonly class CreateProductService
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private EventDispatcherInterface $eventDispatcher,
-        private ValidationErrorFormatter $errorFormatter,
-        private ProductHydrator $hydrator,
+        private ProductCreationPipeline $pipeline,
         private LoggerInterface $logger,
     ) {
     }
@@ -34,23 +28,22 @@ final readonly class CreateProductService
             'categoryId' => $request->categoryId,
         ]);
 
-        $violations = $this->validator->validate($request);
+        $validationResult = $this->pipeline->validate($request);
 
-        if (count($violations) > 0) {
+        if (!$validationResult->isValid) {
             $this->logger->warning('Product validation failed', [
-                'violations_count' => count($violations),
+                'violations_count' => count($validationResult->errors),
             ]);
 
             return [
                 'success' => false,
                 'error' => 'validation_failed',
-                'violations' => $this->errorFormatter->format($violations),
+                'violations' => $validationResult->errors,
             ];
         }
 
-        $product = $this->hydrator->hydrate($request);
-
-        $this->eventDispatcher->dispatch(new ProductCreatedEvent($product));
+        $product = $this->pipeline->hydrate($request);
+        $this->pipeline->dispatchCreatedEvent($product);
 
         $this->logger->info('Product created successfully', [
             'product_id' => $product->getId(),

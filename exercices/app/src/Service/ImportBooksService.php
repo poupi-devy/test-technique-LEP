@@ -4,23 +4,17 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Parser\FileParserInterface;
 use Psr\Log\LoggerInterface;
 
 final readonly class ImportBooksService
 {
     public function __construct(
-        private FileParserInterface $fileParser,
-        private BookImportHydrator $hydrator,
-        private BookValidator $validator,
-        private BookPersister $persister,
+        private BookImportPipeline $pipeline,
         private LoggerInterface $logger,
     ) {
     }
 
     /**
-     * Import books from file
-     *
      * @return array<string, int>
      */
     public function importFromFile(string $filePath): array
@@ -31,14 +25,14 @@ final readonly class ImportBooksService
         $errorCount = 0;
         $rowIndex = 0;
 
-        foreach ($this->fileParser->parse($filePath) as $row) {
+        foreach ($this->pipeline->getFileParser()->parse($filePath) as $row) {
             ++$rowIndex;
 
             try {
-                $bookData = $this->hydrator->hydrate($row);
+                $bookData = $this->pipeline->hydrate($row);
                 $this->logger->debug('Hydrated book data', ['row' => $rowIndex, 'isbn' => $bookData->isbn]);
 
-                if (!$this->validator->isValid($bookData)) {
+                if (!$this->pipeline->validate($bookData)) {
                     $this->logger->warning('Book validation failed', [
                         'row' => $rowIndex,
                         'isbn' => $bookData->isbn,
@@ -47,7 +41,7 @@ final readonly class ImportBooksService
                     continue;
                 }
 
-                $this->persister->persist($bookData);
+                $this->pipeline->persist($bookData);
                 ++$importedCount;
                 $this->logger->info('Book persisted successfully', ['row' => $rowIndex, 'isbn' => $bookData->isbn]);
             } catch (\Exception $exception) {
