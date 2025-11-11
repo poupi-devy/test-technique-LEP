@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ProductControllerTest extends WebTestCase
@@ -27,9 +26,9 @@ final class ProductControllerTest extends WebTestCase
             ])
         );
 
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertResponseHeaderSame('Content-Type', 'application/json');
-        $this->assertStringContainsString('Test Product', $client->getResponse()->getContent());
+        self::assertResponseStatusCodeSame(201);
+        self::assertResponseHeaderSame('Content-Type', 'application/json');
+        self::assertStringContainsString('Test Product', $client->getResponse()->getContent());
     }
 
     public function testCreateProductWithInvalidJson(): void
@@ -45,8 +44,8 @@ final class ProductControllerTest extends WebTestCase
             'invalid json'
         );
 
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertJsonStringEqualsJsonString(
+        self::assertResponseStatusCodeSame(400);
+        self::assertJsonStringEqualsJsonString(
             json_encode(['error' => 'invalid_request']),
             $client->getResponse()->getContent()
         );
@@ -69,10 +68,10 @@ final class ProductControllerTest extends WebTestCase
             ])
         );
 
-        $this->assertResponseStatusCodeSame(422);
+        self::assertResponseStatusCodeSame(422);
         $response = json_decode((string) $client->getResponse()->getContent(), true);
-        $this->assertIsArray($response);
-        $this->assertSame('validation_failed', $response['error'] ?? null);
-        $this->assertNotEmpty($response['violations'] ?? null);
+        self::assertIsArray($response);
+        self::assertSame('validation_failed', $response['error'] ?? null);
+        self::assertNotEmpty($response['violations'] ?? null);
     }
 }

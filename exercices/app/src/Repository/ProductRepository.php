@@ -31,6 +31,7 @@ final class ProductRepository extends ServiceEntityRepository
      */
     public function findByPriceRange(float $minPrice, float $maxPrice): array
     {
+        /** @var array<int, Product> */
         $result = $this->createQueryBuilder('p')
             ->andWhere('p.price >= :minPrice')
             ->andWhere('p.price <= :maxPrice')

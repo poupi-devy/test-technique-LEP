@@ -24,10 +24,10 @@ final readonly class ValidateAndPersistBookHandler
         $data = $event->getData();
 
         $book = new Book();
-        $book->setTitle($data['title']);
-        $book->setAuthor($data['author']);
-        $book->setYear($data['year']);
-        $book->setIsbn($data['isbn']);
+        $book->setTitle((string) $data['title']);
+        $book->setAuthor((string) $data['author']);
+        $book->setYear((int) $data['year']);
+        $book->setIsbn((string) $data['isbn']);
 
         $errors = $this->validator->validate($book);
         if (count($errors) > 0) {

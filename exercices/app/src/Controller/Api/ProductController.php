@@ -46,8 +46,12 @@ final class ProductController extends AbstractController
             $product->setName($data['name']);
         }
 
-        if (isset($data['description']) && (is_string($data['description']) || $data['description'] === null)) {
-            $product->setDescription($data['description']);
+        if (array_key_exists('description', $data)) {
+            if (is_string($data['description'])) {
+                $product->setDescription($data['description']);
+            } elseif ($data['description'] === null) {
+                $product->setDescription(null);
+            }
         }
 
         if (isset($data['price']) && is_numeric($data['price'])) {
