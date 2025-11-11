@@ -29,9 +29,37 @@ DATABASE_URL="postgresql://user:password@127.0.0.1:5432/exercices_db"
 # Créer la base
 php bin/console doctrine:database:create
 
-# Créer les tables
+# Exécuter les migrations
 php bin/console doctrine:migrations:migrate
 ```
+
+### Migrations
+
+La migration `Version20241111164000.php` crée :
+
+**Table `books`** (Exercice 1):
+- `id` (PRIMARY KEY, SERIAL)
+- `title` (VARCHAR 255) - Titre du livre
+- `author` (VARCHAR 255) - Auteur
+- `year` (INTEGER) - Année avec validation (1000-2025)
+- `isbn` (VARCHAR 20 UNIQUE) - ISBN unique
+- `created_at` (TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
+
+Indexes:
+- `idx_books_isbn` - Recherche rapide par ISBN
+- `idx_books_author` - Recherche rapide par auteur
+
+**Table `products`** (Exercice 3):
+- `id` (PRIMARY KEY, SERIAL)
+- `name` (VARCHAR 255) - Nom du produit
+- `description` (VARCHAR 5000, nullable) - Description
+- `price` (NUMERIC 10,2) - Prix avec validation (> 0)
+- `category_id` (INTEGER) - ID catégorie avec validation (> 0)
+- `created_at` (TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
+
+Indexes:
+- `idx_products_category_id` - Recherche par catégorie
+- `idx_products_created_at` - Tri par date création
 
 ## Exercice 1 : Commande d'Import CSV
 
