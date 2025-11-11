@@ -136,4 +136,4 @@ Cloud Build déclenche auto à chaque push
 
 ## Navigation
 
-**[← Retour au README](../../README.md)**
+**[← Section IV](../IV-qualite-code/questions-conceptuelles.md)** | **[← Retour au README](../../README.md)** | **[Section VI →](../VI-leadership-architecture/questions-situationnelles.md)**
