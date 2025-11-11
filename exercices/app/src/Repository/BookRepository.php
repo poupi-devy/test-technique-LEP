@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\Book;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @extends ServiceEntityRepository<Book>
+ */
+final class BookRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Book::class);
+    }
+
+    public function findByIsbn(string $isbn): ?Book
+    {
+        return $this->findOneBy(['isbn' => $isbn]);
+    }
+
+    public function findByAuthor(string $author): array
+    {
+        return $this->findBy(['author' => $author]);
+    }
+}
