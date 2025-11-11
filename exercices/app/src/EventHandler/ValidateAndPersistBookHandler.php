@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventHandler;
 
 use App\Entity\Book;
@@ -9,11 +11,11 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsEventListener(event: BookImportedEvent::class)]
-final class ValidateAndPersistBookHandler
+final readonly class ValidateAndPersistBookHandler
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ValidatorInterface $validator,
+        private EntityManagerInterface $entityManager,
+        private ValidatorInterface     $validator,
     ) {
     }
 

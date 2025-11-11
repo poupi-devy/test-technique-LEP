@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventHandler;
 
 use App\Event\ProductCreatedEvent;
@@ -7,10 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(event: ProductCreatedEvent::class)]
-final class PersistProductHandler
+final readonly class PersistProductHandler
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
