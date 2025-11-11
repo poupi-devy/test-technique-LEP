@@ -70,14 +70,14 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 
 ### Questions conceptuelles
 
-| # | Question | Lien |
-|---|----------|------|
-| 1 | Interface vs Classe abstraite | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q1](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q1) |
-| 2 | Principes SOLID | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q2](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q2) |
-| 3 | Design patterns | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q3](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q3) |
-| 4 | Injection de dépendances (DI) | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q4](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q4) |
-| 5 | Event dispatcher Symfony | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q5](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q5) |
-| 6 | CSRF Tokens | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q6](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q6) |
+| # | Question | Lien                                                                                                                                                           |
+|---|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | Interface vs Classe abstraite | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q1](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q1-interface-vs-classe-abstraite) |
+| 2 | Principes SOLID | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q2](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q2)                               |
+| 3 | Design patterns | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q3](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q3)                               |
+| 4 | Injection de dépendances (DI) | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q4](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q4-injection-de-dépendances-di)   |
+| 5 | Event dispatcher Symfony | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q5](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q5-event-dispatcher-symfony)      |
+| 6 | CSRF Tokens | [docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q6](./docs/I-fondamentaux-php-symfony/questions-conceptuelles.md#q6-csrf-tokens)                   |
 
 ### Connaissance des composants Symfony
 
@@ -104,7 +104,7 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 | # | Question | Lien |
 |---|----------|------|
 | 1 | Relationnelles vs Non-relationnelles | [docs/II-bases-donnees/questions-conceptuelles.md#q1](./docs/II-bases-donnees/questions-conceptuelles.md#q1) |
-| 2 | Formes de normalisation (1NF, 2NF, 3NF) | [docs/II-bases-donnees/questions-conceptuelles.md#q2](./docs/II-bases-donnees/questions-conceptuelles.md#q2) |
+| 2 | Formes de normalisation (1NF, 2NF, 3NF) | [docs/IQ4. Injection de Dépendances (DI)I-bases-donnees/questions-conceptuelles.md#q2](./docs/II-bases-donnees/questions-conceptuelles.md#q2) |
 | 3 | Index et optimisation | [docs/II-bases-donnees/questions-conceptuelles.md#q3](./docs/II-bases-donnees/questions-conceptuelles.md#q3) |
 | 4 | Transactions et cohérence | [docs/II-bases-donnees/questions-conceptuelles.md#q4](./docs/II-bases-donnees/questions-conceptuelles.md#q4) |
 | 5 | Techniques d'optimisation | [docs/II-bases-donnees/questions-conceptuelles.md#q5](./docs/II-bases-donnees/questions-conceptuelles.md#q5) |
