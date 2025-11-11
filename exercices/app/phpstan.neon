@@ -1,0 +1,24 @@
+parameters:
+    level: 9
+    paths:
+        - src
+        - tests
+
+    scanFiles:
+        - bin/console
+
+    excludePaths:
+        - */Tests
+        - */test
+        - */migrations
+
+    treatPhpDocTypesAsCertain: true
+
+    reportUnmatchedIgnoredErrors: true
+
+    checkGenericClassInNonGenericObjectType: true
+
+    strictRules:
+        disallowedLooseComparison: true
+        missingTypehint: true
+        nullsafeOperatorNullsafe: true
