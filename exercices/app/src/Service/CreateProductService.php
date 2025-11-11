@@ -17,6 +17,7 @@ final class CreateProductService
         private readonly ValidatorInterface $validator,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly ValidationErrorFormatter $errorFormatter,
+        private readonly ProductHydrator $hydrator,
     ) {
     }
 
@@ -35,7 +36,7 @@ final class CreateProductService
             ];
         }
 
-        $product = $this->hydrateProduct($request);
+        $product = $this->hydrator->hydrate($request);
 
         $this->eventDispatcher->dispatch(new ProductCreatedEvent($product));
 
@@ -43,17 +44,6 @@ final class CreateProductService
             'success' => true,
             'product' => $this->formatProductResponse($product),
         ];
-    }
-
-    private function hydrateProduct(ProductCreateRequest $request): Product
-    {
-        $product = new Product();
-        $product->setName($request->name);
-        $product->setDescription($request->description);
-        $product->setPrice($request->price);
-        $product->setCategoryId($request->categoryId);
-
-        return $product;
     }
 
     /**
