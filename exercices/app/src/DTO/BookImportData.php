@@ -12,15 +12,12 @@ final readonly class BookImportData
         #[Assert\NotBlank]
         #[Assert\Length(min: 3, max: 255)]
         public string $title,
-
         #[Assert\NotBlank]
         #[Assert\Length(min: 3, max: 255)]
         public string $author,
-
         #[Assert\NotBlank]
         #[Assert\GreaterThan(1000)]
         public int $year,
-
         #[Assert\NotBlank]
         #[Assert\Isbn]
         public string $isbn,

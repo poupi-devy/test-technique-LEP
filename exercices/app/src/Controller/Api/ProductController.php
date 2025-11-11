@@ -40,11 +40,16 @@ final class ProductController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
+        $name = is_string($data['name'] ?? null) ? $data['name'] : '';
+        $price = is_numeric($data['price'] ?? null) ? (string) $data['price'] : '';
+        $categoryId = is_int($data['categoryId'] ?? null) ? $data['categoryId'] : 0;
+        $description = is_string($data['description'] ?? null) ? $data['description'] : null;
+
         $request = new ProductCreateRequest(
-            name: $data['name'] ?? '',
-            description: $data['description'] ?? null,
-            price: (string) ($data['price'] ?? ''),
-            categoryId: $data['categoryId'] ?? 0,
+            name: $name,
+            price: $price,
+            categoryId: $categoryId,
+            description: $description,
         );
 
         $result = $this->createProductService->handle($request);
@@ -57,9 +62,10 @@ final class ProductController extends AbstractController
         }
 
         $product = $result['product'];
+        $productId = is_int($product['id'] ?? null) ? $product['id'] : 0;
 
         return $this->json($product, Response::HTTP_CREATED, [
-            'Location' => sprintf('/api/v1/products/%d', $product['id']),
+            'Location' => sprintf('/api/v1/products/%d', $productId),
         ]);
     }
 }

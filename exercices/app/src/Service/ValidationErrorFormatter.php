@@ -9,14 +9,14 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 final class ValidationErrorFormatter
 {
     /**
-     * @return list<array<string, string>>
+     * @return list<array<string, string|object>>
      */
     public function format(ConstraintViolationListInterface $violations): array
     {
         $errors = [];
         foreach ($violations as $violation) {
             $errors[] = [
-                'field' => (string) $violation->getPropertyPath(),
+                'field' => $violation->getPropertyPath(),
                 'message' => $violation->getMessage(),
             ];
         }
