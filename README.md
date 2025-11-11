@@ -48,7 +48,7 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 │   ├── IV-qualite-code/
 │   ├── V-devops-infrastructure/
 │   └── VI-leadership-architecture/
-├── exercises/                     # Code des 3 exercices pratiques
+├── exercices/                     # Code des 3 exercices pratiques
 │   ├── 01-commande-csv/
 │   │   ├── src/
 │   │   └── tests/
@@ -56,7 +56,6 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 │   └── 03-endpoint-api/
 │       ├── src/
 │       └── tests/
-├── config/                        # Configuration Symfony (projet principal)
 └── .github/workflows/             # GitHub Actions CI/CD
 ```
 
