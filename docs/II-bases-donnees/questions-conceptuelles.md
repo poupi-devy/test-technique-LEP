@@ -208,4 +208,4 @@ Une transaction est une **unité de travail atomique** qui exécute une ou plusi
 
 ## Navigation
 
-**[← Retour au README](../../README.md)**
+**[← Retour au README](../../README.md)** | **[Exercice Pratique →](../../exercices/02-requete-sql/README.md)**
