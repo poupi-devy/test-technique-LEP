@@ -106,6 +106,18 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 - `BookPersister`: Persistance en base de données
 - `ImportBooksService`: Orchestration du workflow
 
+**Tests unitaires:**
+- `BookImportHydratorTest` (5 tests): Hydration avec cas limites (valeurs nulles, colonnes manquantes, etc.)
+- `BookPersisterTest` (6 tests): Persistance Doctrine et opérations de flush
+- `ValidatorWrapperTest` (7 tests): Logique de validation avec contraintes métier
+
+Exécuter:
+```bash
+php bin/phpunit tests/Unit/Service/BookImportHydratorTest.php
+php bin/phpunit tests/Unit/Service/BookPersisterTest.php
+php bin/phpunit tests/Unit/Service/ValidatorWrapperTest.php
+```
+
 ---
 
 ## II. Connaissance des bases de données
@@ -192,6 +204,17 @@ Response 422 (Validation Error):
 }
 ```
 
+**Tests unitaires:**
+- `ProductHydratorTest` (5 tests): Hydration de Product avec gestion de description optionnelle
+- `PersistProductHandlerTest` (3 tests): Event handler pour la persistance en base
+- Validation complète via `ValidatorWrapperTest` (7 tests)
+
+Exécuter:
+```bash
+php bin/phpunit tests/Unit/Service/ProductHydratorTest.php
+php bin/phpunit tests/Unit/EventHandler/PersistProductHandlerTest.php
+```
+
 ---
 
 ## IV. Qualité du code et bonnes pratiques
@@ -274,19 +297,45 @@ php bin/console doctrine:migrations:migrate
 
 ### Tests
 
+#### Suite de tests unitaires (27 tests)
+
+Le projet inclut une suite complète de tests unitaires couvrant les services clés:
+
 ```bash
-# Tous les tests
+# Lancer tous les tests
+make test
+
+# Ou directement avec PHPUnit
 php bin/phpunit
 
-# Tests unitaires
-php bin/phpunit tests/Unit
-
-# Tests fonctionnels
-php bin/phpunit tests/Functional
-
-# Couverture de code
-php bin/phpunit --coverage-html=coverage
+# Tests unitaires spécifiques
+php bin/phpunit tests/Unit/Service/BookImportHydratorTest.php
+php bin/phpunit tests/Unit/Service/ProductHydratorTest.php
+php bin/phpunit tests/Unit/Service/BookPersisterTest.php
+php bin/phpunit tests/Unit/Service/ValidatorWrapperTest.php
+php bin/phpunit tests/Unit/EventHandler/PersistProductHandlerTest.php
+php bin/phpunit tests/Unit/Parser/CsvFileParserTest.php
 ```
+
+**Résultat**: 27 tests passant, 64 assertions, 0 warnings ✅
+
+#### Analyse statique du code
+
+```bash
+# PHPStan (level 9 - analyse maximale)
+make stan
+
+# Psalm (type checking avancé)
+make psalm
+
+# ECS (linting et standards PSR-12)
+make ecs
+
+# Rector (refactoring PHP 8.4)
+make rector
+```
+
+**Résultat**: 0 erreurs PHPStan, 0 erreurs Psalm ✅
 
 ### Exécuter les exercices
 
