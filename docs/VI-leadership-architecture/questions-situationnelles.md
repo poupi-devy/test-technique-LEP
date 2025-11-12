@@ -50,7 +50,7 @@
   - Manque de connaissance?
   - Démotivation?
   - Comprendre l'équipe?
-  - Mauvaise definition des taches?
+  - Mauvaise définition des tâches?
 
 #### 3. Plan d'Accompagnement
 - **Pair programming** sur features clés
