@@ -41,9 +41,9 @@ final readonly class ImportBooksService
                     continue;
                 }
 
-                $this->pipeline->persist($bookData);
+                $this->pipeline->dispatchBookImportedEvent($bookData);
                 ++$importedCount;
-                $this->logger->info('Book persisted successfully', ['row' => $rowIndex, 'isbn' => $bookData->isbn]);
+                $this->logger->info('Book imported successfully', ['row' => $rowIndex, 'isbn' => $bookData->isbn]);
             } catch (\Exception $exception) {
                 ++$errorCount;
                 $this->logger->error('Book import error', [

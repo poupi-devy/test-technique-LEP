@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\DTO\BookImportData;
+use App\Event\BookImportedEvent;
 use App\Parser\FileParserInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final readonly class BookImportPipeline
 {
@@ -13,7 +15,7 @@ final readonly class BookImportPipeline
         private FileParserInterface $fileParser,
         private BookImportHydrator $hydrator,
         private ValidatorWrapper $validator,
-        private BookPersister $persister,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -32,8 +34,8 @@ final readonly class BookImportPipeline
         return $this->validator->isValid($bookData);
     }
 
-    public function persist(BookImportData $bookData): void
+    public function dispatchBookImportedEvent(BookImportData $bookData): void
     {
-        $this->persister->persist($bookData);
+        $this->eventDispatcher->dispatch(new BookImportedEvent($bookData));
     }
 }

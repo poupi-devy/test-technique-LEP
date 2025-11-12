@@ -7,7 +7,7 @@ namespace App\Service;
 use App\DTO\ProductCreateRequest;
 use App\Entity\Product;
 
-final class ProductHydrator
+final readonly class ProductHydrator
 {
     public function hydrate(ProductCreateRequest $request): Product
     {

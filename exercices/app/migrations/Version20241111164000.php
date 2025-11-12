@@ -34,6 +34,7 @@ final class Version20241111164000 extends AbstractMigration
 
         $this->addSql('CREATE INDEX idx_books_isbn ON books(isbn)');
         $this->addSql('CREATE INDEX idx_books_author ON books(author)');
+        $this->addSql('CREATE INDEX idx_books_created_at ON books(created_at)');
 
         // Create products table (Exercice 3: POST /api/v1/products)
         $this->addSql('CREATE TABLE products (
