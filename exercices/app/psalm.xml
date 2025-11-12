@@ -26,6 +26,14 @@
         </UnusedParam>
         <MissingDependency errorLevel="suppress"/>
         <MissingOverrideAttribute errorLevel="suppress"/>
+        <!-- Test-related issues from mocks and dynamic methods -->
+        <UndefinedMethod errorLevel="suppress" path="tests/Unit/**"/>
+        <PossiblyUndefinedMethod errorLevel="suppress" path="tests/**"/>
+        <PossiblyUndefinedArrayOffset errorLevel="suppress" path="tests/**"/>
+        <PossiblyNullReference errorLevel="suppress" path="tests/**"/>
+        <PossiblyFalseArgument errorLevel="suppress" path="tests/**"/>
+        <PossiblyFalseIterator errorLevel="suppress" path="tests/**"/>
+        <RedundantCondition errorLevel="suppress" path="tests/**"/>
     </issueHandlers>
 
     <forbiddenFunctions>

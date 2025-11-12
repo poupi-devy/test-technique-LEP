@@ -9,8 +9,8 @@ use App\DTO\ProductCreateRequest;
 use App\Service\CreateProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/api/v1')]
@@ -22,10 +22,56 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/products', methods: ['POST'])]
-    public function __invoke(
-        #[MapRequestPayload]
-        ProductCreateRequest $productRequest,
-    ): JsonResponse {
+    public function __invoke(Request $request): JsonResponse
+    {
+        try {
+            /** @var mixed $decoded */
+            $decoded = json_decode((string) $request->getContent(), true, flags: JSON_THROW_ON_ERROR);
+
+            if (!is_array($decoded)) {
+                return $this->json(
+                    ['error' => 'invalid_request'],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            /** @var array<string, mixed> $data */
+            $data = $decoded;
+        } catch (\JsonException) {
+            return $this->json(
+                ['error' => 'invalid_request'],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        $nameValue = $data['name'] ?? '';
+        $name = is_string($nameValue) ? $nameValue : '';
+
+        $priceValue = $data['price'] ?? '';
+        $price = match (true) {
+            is_string($priceValue) => $priceValue,
+            is_int($priceValue), is_float($priceValue) => (string) $priceValue,
+            default => '',
+        };
+
+        /** @var mixed $categoryIdValue */
+        $categoryIdValue = $data['categoryId'] ?? 0;
+        $categoryId = match (true) {
+            is_int($categoryIdValue) => $categoryIdValue,
+            /** @phpstan-ignore-next-line cast.int */
+            default => (int) $categoryIdValue,
+        };
+
+        $descriptionValue = $data['description'] ?? null;
+        $description = is_string($descriptionValue) ? $descriptionValue : null;
+
+        $productRequest = new ProductCreateRequest(
+            name: $name,
+            price: $price,
+            categoryId: $categoryId,
+            description: $description,
+        );
+
         /** @var array{success: bool, error?: string, violations?: list<array{field: string, message: object|string}>, product?: array<string, mixed>} $result */
         $result = $this->createProductService->handle($productRequest);
 

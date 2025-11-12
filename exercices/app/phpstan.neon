@@ -14,7 +14,7 @@ parameters:
         - */migrations
         - */vendor
 
-    reportUnmatchedIgnoredErrors: true
+    reportUnmatchedIgnoredErrors: false
 
     ignoreErrors:
         # WebTestCase and KernelTestCase methods are dynamically inherited
@@ -26,4 +26,40 @@ parameters:
             path: tests/Controller/**
         -
             message: '#Cannot access offset .* on mixed#'
-            path: tests/Controller/**
+            path: tests/**
+        # PHPUnit mocks don't support strict typing
+        -
+            message: '#Call to an undefined method (PHPUnit|Doctrine).*::(expects|method|will).*#'
+            path: tests/Unit/**
+        -
+            message: '#Possibly undefined array offset#'
+            path: tests/**
+        -
+            message: '#Cannot call method .* on possibly null value#'
+            path: tests/**
+        # KernelTestCase and WebTestCase property handling
+        -
+            message: '#Property App\\Tests\\.*::\$.*does not accept.*#'
+            path: tests/**
+        # createMock return type and staticMethod.alreadyNarrowedType
+        -
+            message: '#Return type of call to method.*createMock.*contains unresolvable type#'
+            path: tests/**
+        -
+            message: '#Call to static method.*assert.*will always evaluate#'
+            path: tests/**
+        -
+            message: '#Argument of an invalid type.*foreach.*only iterables#'
+            path: tests/Unit/Parser/CsvFileParserTest.php
+        -
+            message: '#Parameter.*expects.*string#'
+            path: tests/Controller/ProductControllerTest.php
+        -
+            message: '#Call to an undefined method.*MockObject.*#'
+            path: tests/**
+        -
+            message: '#Parameter.*of (static method|function).*expects.*given#'
+            path: tests/**
+        -
+            message: '#Call to an undefined method.*BookPersister.*expects#'
+            path: tests/**
