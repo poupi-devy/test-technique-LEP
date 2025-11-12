@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Config;
 
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class ValidationRules
+final readonly class ValidationRules
 {
+    /**
+     * @return list<Constraint>
+     */
     public static function getTitleConstraints(): array
     {
         return [
@@ -21,6 +25,9 @@ final class ValidationRules
         ];
     }
 
+    /**
+     * @return list<Constraint>
+     */
     public static function getAuthorConstraints(): array
     {
         return [
@@ -34,6 +41,9 @@ final class ValidationRules
         ];
     }
 
+    /**
+     * @return list<Constraint>
+     */
     public static function getYearConstraints(): array
     {
         return [
@@ -45,6 +55,9 @@ final class ValidationRules
         ];
     }
 
+    /**
+     * @return list<Constraint>
+     */
     public static function getIsbnConstraints(): array
     {
         return [
@@ -53,6 +66,9 @@ final class ValidationRules
         ];
     }
 
+    /**
+     * @return list<Constraint>
+     */
     public static function getPriceConstraints(): array
     {
         return [
@@ -64,6 +80,9 @@ final class ValidationRules
         ];
     }
 
+    /**
+     * @return list<Constraint>
+     */
     public static function getCategoryIdConstraints(): array
     {
         return [
@@ -75,6 +94,9 @@ final class ValidationRules
         ];
     }
 
+    /**
+     * @return list<Constraint>
+     */
     public static function getDescriptionConstraints(): array
     {
         return [

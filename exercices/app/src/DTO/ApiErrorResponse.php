@@ -7,7 +7,7 @@ namespace App\DTO;
 final readonly class ApiErrorResponse
 {
     /**
-     * @param array<int, array{field: string, message: string}> $violations
+     * @param array<int, array{field: string, message: string|object}> $violations
      */
     public function __construct(
         public string $error,

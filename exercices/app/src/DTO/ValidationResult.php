@@ -7,7 +7,7 @@ namespace App\DTO;
 final readonly class ValidationResult
 {
     /**
-     * @param list<array<string, string>> $errors
+     * @param list<array{field: string, message: string|object}> $errors
      */
     public function __construct(
         public bool $isValid,

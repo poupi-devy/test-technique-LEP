@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 final class ValidationErrorFormatter
 {
     /**
-     * @return list<array<string, string>>
+     * @return list<array{field: string, message: string|object}>
      */
     public function format(ConstraintViolationListInterface $violations): array
     {

@@ -24,6 +24,9 @@ final readonly class BookImportPipeline
         return $this->fileParser;
     }
 
+    /**
+     * @param list<string|null> $row
+     */
     public function hydrate(array $row): BookImportData
     {
         return $this->hydrator->hydrate($row);
