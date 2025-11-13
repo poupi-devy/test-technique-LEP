@@ -51,11 +51,9 @@ jobs:
         run: make qa
         working-directory: exercices/app
 
-      - name: Create test database
-        run: php bin/console doctrine:database:create --if-not-exists --env=test
+      - name: Create test database file
+        run: touch /tmp/test.db
         working-directory: exercices/app
-        env:
-          DATABASE_URL: "sqlite:////tmp/test.db"
 
       - name: Run migrations
         run: php bin/console doctrine:migrations:migrate -n --env=test
