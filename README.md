@@ -270,29 +270,49 @@ php bin/phpunit tests/Unit/EventHandler/PersistProductHandlerTest.php
 ## Installation et utilisation
 
 ### Prérequis
+- **PHP 8.4+** ([Installation PHP](https://www.php.net/downloads))
+- **Composer** ([Installation Composer](https://getcomposer.org/download/))
+- **Docker & Docker Compose** ([Installation Docker](https://docs.docker.com/get-docker/))
 
-- PHP 8.4+
-- Symfony 7.3
-- PostgreSQL 12+
-- Composer
-- Docker (optionnel)
-
-### Installation
+### Étapes d'installation
 
 ```bash
-# Cloner le repository
+# 1. Cloner le repository
 git clone git@github.com:poupi-devy/test-technique-LEP.git
 cd test-technique-LEP/exercices/app
 
-# Installer les dépendances
+# 2. Installer les dépendances PHP
 composer install
 
-# Configuration
+# 3. Configurer l'environnement
 cp .env.example .env
 
-# Base de données
-php bin/console doctrine:database:create
+# 4. Démarrer les services Docker (PostgreSQL)
+docker compose up -d
+
+# 5. Attendre que PostgreSQL soit prêt (environ 5-10 secondes)
+sleep 10
+
+# 6. Créer la base de données et exécuter les migrations
+php bin/console doctrine:database:create --if-not-exists
 php bin/console doctrine:migrations:migrate
+
+# Ou utiliser la commande du Makefile
+make db
+
+# 7. (Optionnel) Démarrer le serveur Symfony
+symfony server:start
+# Ou avec la commande PHP native
+# php bin/console server:run
+```
+
+**Accéder à l'application:**
+- API: http://localhost/api/v1/ (après `symfony server:start`)
+- Tests: `make test` ou `php bin/phpunit`
+
+**Arrêter les services Docker:**
+```bash
+docker compose down
 ```
 
 ### Tests
