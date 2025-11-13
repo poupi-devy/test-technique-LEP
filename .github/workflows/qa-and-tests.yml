@@ -30,6 +30,7 @@ jobs:
       - name: Get Composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        working-directory: exercices/app
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
@@ -40,27 +41,32 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
+        working-directory: exercices/app
 
       - name: Run QA Suite (ECS, Rector, PHPStan, Psalm)
         run: make qa
+        working-directory: exercices/app
 
       - name: Create test database
         run: php bin/console doctrine:database:create --if-not-exists --env=test
+        working-directory: exercices/app
         env:
           DATABASE_URL: sqlite:///:memory:
 
       - name: Run migrations
         run: php bin/console doctrine:migrations:migrate -n --env=test
+        working-directory: exercices/app
         env:
           DATABASE_URL: sqlite:///:memory:
 
       - name: Run tests
         run: make test
+        working-directory: exercices/app
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./var/coverage/coverage.xml
+          files: ./exercices/app/var/coverage/coverage.xml
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
