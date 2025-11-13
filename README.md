@@ -24,7 +24,7 @@ Ce repository contient les réponses au test technique pour le poste de **Lead D
 
 - **PHP**: 8.4 (typage fort)
 - **Symfony**: 7.3
-- **PostgreSQL**: 12+
+- **PostgreSQL**: 16
 - **PHPStan**: Analyse statique (level max)
 - **Psalm**: Type checking
 - **ECS**: Standards PSR-12
