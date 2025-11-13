@@ -300,14 +300,12 @@ php bin/console doctrine:migrations:migrate
 # Ou utiliser la commande du Makefile
 make db
 
-# 7. (Optionnel) Démarrer le serveur Symfony
-symfony server:start
-# Ou avec la commande PHP native
-# php bin/console server:run
+# 7. (Optionnel) Démarrer le serveur PHP
+php -S 127.0.0.1:8000 -t public
 ```
 
 **Accéder à l'application:**
-- API: http://localhost/api/v1/ (après `symfony server:start`)
+- API: http://localhost:8000/api/v1/
 - Tests: `make test` ou `php bin/phpunit`
 
 **Arrêter les services Docker:**
@@ -369,8 +367,13 @@ Consultez [src/Database/queries.sql](./src/Database/queries.sql)
 
 #### III. Endpoint API
 ```bash
-php bin/console server:run
-# POST /api/v1/products
+# Démarrer le serveur PHP
+php -S 127.0.0.1:8000 -t public
+
+# Dans un autre terminal, tester l'API
+curl -X POST http://localhost:8000/api/v1/products \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Laptop","price":"999.99","categoryId":1}'
 ```
 
 ---
